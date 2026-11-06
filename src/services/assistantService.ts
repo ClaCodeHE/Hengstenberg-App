@@ -7,7 +7,8 @@ import { demoReply, detectProducts, detectRecipes, type AssistantReply } from ".
 import type { ChatMessage, Profile } from "../lib/types.ts";
 import { goalInfo } from "../lib/nutrition.ts";
 
-let aiAvailable: boolean | null = null;
+// VITE_DEMO_ONLY=1 builds a static demo (e.g. for a hosted preview) that never calls the AI endpoint.
+let aiAvailable: boolean | null = import.meta.env.VITE_DEMO_ONLY === "1" ? false : null;
 
 export const assistantMode = () => aiAvailable;
 

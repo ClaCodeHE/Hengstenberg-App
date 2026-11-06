@@ -1,4 +1,5 @@
 import { ChevronRight, Pencil, LineChart, CalendarDays, Bell, Package, Heart, GraduationCap, RotateCcw, UserRound, ShieldCheck, Server } from "lucide-react";
+import { useState } from "react";
 import { useApp } from "../store/useApp.ts";
 import { Button, CartButton, SectionHeader, Tag } from "../components/ui.tsx";
 import { ProductTile, RecipeRow } from "../components/cards.tsx";
@@ -10,6 +11,7 @@ import { assistantMode } from "../services/assistantService.ts";
 export function ProfileScreen() {
   const s = useApp();
   const p = s.profile;
+  const [confirmReset, setConfirmReset] = useState(false);
 
   if (!p) {
     return (
@@ -137,10 +139,14 @@ export function ProfileScreen() {
               className="flex-1"
               icon={<RotateCcw size={14} />}
               onClick={() => {
-                if (confirm("Reset all demo data on this device?")) s.resetAll();
+                if (confirmReset) s.resetAll();
+                else {
+                  setConfirmReset(true);
+                  setTimeout(() => setConfirmReset(false), 4000);
+                }
               }}
             >
-              Reset app
+              {confirmReset ? "Tap again to reset" : "Reset app"}
             </Button>
           </div>
         </section>
